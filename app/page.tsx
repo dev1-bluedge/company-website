@@ -4,11 +4,14 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, CheckCircle, ChevronRight, Mail, MapPin, Menu, Phone } from "lucide-react"
+import { ArrowRight, CheckCircle, ChevronRight, Menu } from "lucide-react"
 import { motion } from "framer-motion"
 import { FadeIn } from "@/components/animations/fade-in"
 import { StaggerChildren } from "@/components/animations/stagger-children"
 import { MobileNav } from "@/components/mobile-nav"
+import ContactSection from "@/components/contact-section"
+import Footer from "@/components/footer"
+import Service from "@/components/service"
 
 export default function Home() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
@@ -109,11 +112,9 @@ export default function Home() {
                   </Button>
                 </motion.div>
               </FadeIn>
-              <FadeIn direction="right" delay={0.3} className="flex items-center justify-center">
-                <motion.div
+              <FadeIn direction="left" delay={0.3} className="flex items-center justify-center">
+                <div
                   className="relative"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300 }}
                 >
                   <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-primary/20 to-primary/30 blur-xl"></div>
                   <Image
@@ -124,97 +125,17 @@ export default function Home() {
                     className="relative rounded-xl object-cover shadow-card"
                     priority
                   />
-                </motion.div>
+                </div>
               </FadeIn>
             </div>
           </div>
         </section>
 
         {/* Services Section */}
-        <section id="services" className="w-full py-16 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <FadeIn className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
-                  Our Services
-                </div>
-                <h2 className="section-heading gradient-text">What We Offer</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl">
-                  We provide comprehensive digital solutions tailored to your business needs.
-                </p>
-              </div>
-            </FadeIn>
-            {/* Update the service cards to have equal height */}
-            <StaggerChildren className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-12">
-              {services.map((service, index) => (
-                <motion.div
-                  key={index}
-                  className="flex flex-col items-center space-y-3 rounded-xl border p-8 shadow-soft bg-white transition-all hover:shadow-card hover:border-primary/20 h-full"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="p-3 bg-primary/10 rounded-full text-primary">{service.icon}</div>
-                  <h3 className="text-xl font-bold font-display">{service.title}</h3>
-                  <p className="text-center text-muted-foreground flex-grow">{service.description}</p>
-                  <Link href="#contact" className="flex items-center text-primary hover:underline mt-auto">
-                    Learn more <ChevronRight className="h-4 w-4 ml-1" />
-                  </Link>
-                </motion.div>
-              ))}
-            </StaggerChildren>
-          </div>
-        </section>
+        <Service/>
 
         {/* Portfolio Section */}
-        <section
-          id="portfolio"
-          className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-br from-primary/5 to-primary/10"
-        >
-          <div className="container px-4 md:px-6">
-            <FadeIn className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
-                  Our Work
-                </div>
-                <h2 className="section-heading gradient-text">Featured Projects</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl">
-                  Take a look at some of our recent projects that showcase our expertise and creativity.
-                </p>
-              </div>
-            </FadeIn>
-            {/* Update the project cards to have equal height */}
-            <StaggerChildren className="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 mt-12">
-              {projects.map((project, index) => (
-                <motion.div
-                  key={index}
-                  className="group relative overflow-hidden rounded-xl border shadow-soft bg-white h-[300px]"
-                  whileHover={{ y: -5 }}
-                >
-                  <Image
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    width={400}
-                    height={300}
-                    className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="text-center p-4">
-                      <h3 className="text-xl font-bold text-white font-display">{project.title}</h3>
-                      <p className="text-white/80 mb-4">{project.category}</p>
-                      <Button size="sm" variant="secondary" asChild className="rounded-md font-medium">
-                        <Link href="#contact">View Details</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </StaggerChildren>
-            <FadeIn delay={0.6} className="flex justify-center mt-12">
-              <Button variant="outline" asChild className="rounded-md font-medium">
-                <Link href="#contact">View All Projects</Link>
-              </Button>
-            </FadeIn>
-          </div>
-        </section>
+      <PortfolioSection />
 
         {/* Testimonials Section */}
         <section id="testimonials" className="w-full py-16 md:py-24 lg:py-32">
@@ -347,209 +268,15 @@ export default function Home() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="w-full py-16 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <FadeIn className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm text-primary font-medium">
-                  Contact Us
-                </div>
-                <h2 className="section-heading gradient-text">Let's Start a Conversation</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl">
-                  Ready to take your business to the next level? Get in touch with us today.
-                </p>
-              </div>
-            </FadeIn>
-            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 mt-12">
-              <StaggerChildren className="space-y-6">
-                <motion.div
-                  className="flex items-start space-x-4 bg-white rounded-xl p-6 shadow-soft"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="bg-primary/10 p-3 rounded-full text-primary">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg font-display">Address</h3>
-                    <p className="text-muted-foreground">123 Business Street, Suite 100, San Francisco, CA 94107</p>
-                  </div>
-                </motion.div>
-                <motion.div
-                  className="flex items-start space-x-4 bg-white rounded-xl p-6 shadow-soft"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="bg-primary/10 p-3 rounded-full text-primary">
-                    <Mail className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg font-display">Email</h3>
-                    <p className="text-muted-foreground">hello@acmeinc.com</p>
-                  </div>
-                </motion.div>
-                <motion.div
-                  className="flex items-start space-x-4 bg-white rounded-xl p-6 shadow-soft"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="bg-primary/10 p-3 rounded-full text-primary">
-                    <Phone className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg font-display">Phone</h3>
-                    <p className="text-muted-foreground">(123) 456-7890</p>
-                  </div>
-                </motion.div>
-                <motion.div className="rounded-xl border p-6 shadow-soft bg-white" whileHover={{ y: -5 }}>
-                  <h3 className="font-bold text-lg mb-4 font-display">Business Hours</h3>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div className="font-medium">Monday - Friday</div>
-                    <div>9:00 AM - 6:00 PM</div>
-                    <div className="font-medium">Saturday</div>
-                    <div>10:00 AM - 4:00 PM</div>
-                    <div className="font-medium">Sunday</div>
-                    <div>Closed</div>
-                  </div>
-                </motion.div>
-              </StaggerChildren>
-              <FadeIn direction="left" delay={0.3}>
-                <motion.div
-                  className="rounded-xl border bg-white p-8 shadow-card"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                  <form className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="first-name"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          First name
-                        </label>
-                        <input
-                          id="first-name"
-                          className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="John"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label
-                          htmlFor="last-name"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Last name
-                        </label>
-                        <input
-                          id="last-name"
-                          className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Doe"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="email"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Email
-                      </label>
-                      <input
-                        id="email"
-                        type="email"
-                        className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="john.doe@example.com"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="phone"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Phone
-                      </label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        className="flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="(123) 456-7890"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label
-                        htmlFor="message"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        className="flex min-h-[140px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Tell us about your project..."
-                      />
-                    </div>
-                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                      <Button type="submit" className="w-full rounded-md font-medium">
-                        Send Message
-                      </Button>
-                    </motion.div>
-                  </form>
-                </motion.div>
-              </FadeIn>
-            </div>
-          </div>
-        </section>
+       <ContactSection/>
       </main>
-      <footer className="w-full border-t py-8 bg-gradient-to-br from-primary/5 to-primary/10">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-          <motion.div
-            className="flex items-center gap-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="bg-primary rounded-md p-1.5">
-              <Image
-                src="/placeholder.svg?height=24&width=24"
-                alt="Company Logo"
-                width={24}
-                height={24}
-                className="rounded invert"
-              />
-            </div>
-            <span className="text-lg font-display font-bold">Acme Inc</span>
-          </motion.div>
-          <motion.p
-            className="text-center text-sm leading-loose text-muted-foreground md:text-left"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            © {new Date().getFullYear()} Acme Inc. All rights reserved.
-          </motion.p>
-          <motion.div
-            className="flex gap-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Sitemap
-            </Link>
-          </motion.div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   )
 }
 
 // Sample data
-const services = [
+export const services = [
   {
     title: "Web Development",
     description: "Custom websites and web applications built with the latest technologies.",
