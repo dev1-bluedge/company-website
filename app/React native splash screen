@@ -1,0 +1,60 @@
+import React, { useEffect, useMemo } from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
+
+const { width, height } = Dimensions.get('window');
+const INITIAL_RADIUS = 50;
+
+const SplashScreen = ({ onAnimationEnd }: { onAnimationEnd: () => void }) => {
+  const scale = useSharedValue(0);
+
+  // Memoizing the maximum scale to avoid recalculation on every render
+  const maxScale = useMemo(() => Math.sqrt(width * width + height * height) / INITIAL_RADIUS, []);
+
+  useEffect(() => {
+    // Directly trigger the animation after 1 second (instead of using setTimeout)
+    const animationTimeout = setTimeout(() => {
+      scale.value = withTiming(maxScale, {
+        duration: 12000,
+        easing: Easing.out(Easing.exp),
+      }, () => {
+        onAnimationEnd();  // Call the function once animation ends
+      });
+    }, 1000); // Wait for 1 second before starting the animation
+
+    return () => clearTimeout(animationTimeout); // Cleanup the timeout on unmount
+  }, [maxScale, scale, onAnimationEnd]);
+
+  const circleStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  return (
+    <View style={styles.container}>
+      <Animated.View style={[styles.circle, circleStyle]} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  circle: {
+    width: INITIAL_RADIUS * 2,
+    height: INITIAL_RADIUS * 2,
+    borderRadius: INITIAL_RADIUS,
+    backgroundColor: 'orange', // vibrant color
+    position: 'absolute',
+  },
+});
+
+export default SplashScreen;
